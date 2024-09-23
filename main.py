@@ -4,6 +4,7 @@ import scipy as sp
 import matplotlib.pyplot as plt
 from scipy import ndimage
 from scipy.spatial import Delaunay
+from scipy.interpolate import griddata
 from PIL import Image
 
 
@@ -39,13 +40,13 @@ def getBlurRadius(img: np.ndarray):
 
 def main():
     # Get all files
-    for vid_no in range(2, 7):
+    for vid_no in range(1, 7):
         files = glob(f"./raw/frames/src_{vid_no}_*.png")
         files.sort()
         rad = 0
         for file in files:
-            if rad != 0:
-                return
+            # if rad != 0:
+            #     return
             frame_no = int(file.split("_")[-1].split(".")[0])
             img = loadImage(file, True)
             ori_img = loadImage(file)
@@ -84,6 +85,19 @@ def main():
             nb = []
             for i in range(len(delaunay.points)):
                 nb.append(np.sum(delaunay.simplices == i))
+            grid_x, grid_y = np.mgrid[0 : img.shape[0] : 1, 0 : img.shape[1] : 1]
+            grid_z = griddata(
+                delaunay.points, nb, (grid_x, grid_y), method="cubic", fill_value=0
+            )
+            plt.imshow(grid_z, cmap="inferno")
+            plt.axis("off")
+            plt.savefig(
+                f"./raw/bond_order/{vid_no}_{frame_no}.png",
+                bbox_inches="tight",
+                pad_inches=0,
+                dpi=300,
+            )
+            plt.close()
 
 
 if __name__ == "__main__":
