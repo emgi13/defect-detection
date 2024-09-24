@@ -9,3 +9,5 @@ raw/centers
 raw/bond_order
 raw/delaunay
 raw/voronoi
+raw/delaunay
+raw/voronoi_interp
