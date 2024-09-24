@@ -1,6 +1,6 @@
 #!/bin/bash
 
-framerate=8
+framerate=24
 
 # Generate centers video
 for vid_no in {1..6}; do
