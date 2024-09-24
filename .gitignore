@@ -6,3 +6,6 @@ __pycache__/
 raw/frames
 raw/tests
 raw/centers
+raw/bond_order
+raw/delaunay
+raw/voronoi
