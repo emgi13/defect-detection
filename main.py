@@ -1,6 +1,5 @@
 from glob import glob
 import numpy as np
-import scipy as sp
 import matplotlib.pyplot as plt
 from scipy import ndimage
 from scipy.spatial import Delaunay, Voronoi, ConvexHull
@@ -177,14 +176,13 @@ def main():
                 plt.close()
                 verts = np.array(verts)
                 areas = np.array(areas)
-                colors = get_color(areas)
                 grid_x, grid_y = np.mgrid[0 : img.shape[0] : 1, 0 : img.shape[1] : 1]
                 grid_z = griddata(
-                    verts, colors, (grid_x, grid_y), method="cubic", fill_value=0
+                    verts, areas, (grid_x, grid_y), method="linear", fill_value=0
                 )
                 plt.figure(figsize=(img.shape[1] / 300, img.shape[0] / 300))
                 plt.imshow(
-                    grid_z,
+                    get_color(grid_z),
                     interpolation="none",
                 )
                 plt.axis("off")
